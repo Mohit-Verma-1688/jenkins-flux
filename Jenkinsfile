@@ -1,5 +1,5 @@
 dockerRepoHost = 'docker.io'
-dockerRepoUser = 'kingdonb' // (Username must match the value in jenkinsDockerSecret)
+dockerRepoUser = 'mohitverma1688' // (Username must match the value in jenkinsDockerSecret)
 dockerRepoProj = 'jenkins-example-workflow'
 
 // these refer to a Jenkins secret "id", which can be in Jenkins global scope:
