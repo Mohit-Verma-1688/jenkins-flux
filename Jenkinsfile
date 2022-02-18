@@ -1,9 +1,9 @@
 dockerRepoHost = 'docker.io'
 dockerRepoUser = 'mohitverma1688' // (Username must match the value in jenkinsDockerSecret)
-dockerRepoProj = 'jenkins-example-workflow'
+dockerRepoProj = 'php-app'
 
 // these refer to a Jenkins secret "id", which can be in Jenkins global scope:
-jenkinsDockerSecret = 'docker-registry-account'
+jenkinsDockerSecret = 'docker-registry-account1'
 
 // blank values that are filled in by pipeline steps below:
 gitCommit = ''
