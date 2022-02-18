@@ -86,7 +86,7 @@ pipeline {
           steps {
             // Run the tests in the new test container
             container('test') {
-              sh "echo name"
+              echo 'testing stage running'
             }
           }
         }
