@@ -11,6 +11,7 @@ branchName = ''
 unixTime = ''
 developmentTag = ''
 releaseTag = ''
+TAG_NAME = "TRUE"
 
 pipeline {
   agent {
