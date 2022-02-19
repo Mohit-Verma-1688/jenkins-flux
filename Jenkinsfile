@@ -24,7 +24,6 @@ pipeline {
   agent {
     kubernetes { yamlFile "jenkins/docker-pod.yaml" }
   }
-    }
   stages {
     // Build a Docker image and keep it locally for now
     stage('Build') {
