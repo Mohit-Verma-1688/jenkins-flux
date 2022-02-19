@@ -1,3 +1,3 @@
 <?php
-  $conn = new mysqli("mysqldb.demo-webapp", "dummy", "dummy", "dummy");
+  $conn = new mysqli("demo-mysqldb.demo-webapp", "dummy", "dummy", "dummy");
 ?>
