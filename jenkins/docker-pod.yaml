@@ -15,9 +15,9 @@ spec:
     - cat
     resources:
       requests:
-        memory: 200Mi
-        cpu: 50m
+        memory: 50Mi
+        cpu: 25m
       limits:
-        memory: 1Gi
-        cpu: 1
+        memory: 200Mi
+        cpu: 100m
     tty: true
