@@ -10,7 +10,7 @@ gitCommit = ''
 branchName = ''
 unixTime = ''
 developmentTag = ''
-releaseTag = ''
+releaseTag = '1.0.0'
 
 pipeline {
   agent {
