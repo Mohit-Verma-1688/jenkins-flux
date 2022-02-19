@@ -73,11 +73,11 @@ pipeline {
                     - cat
                     resources:
                       requests:
-                        memory: 256Mi
-                        cpu: 50m
+                        memory: 100Mi
+                        cpu: 30m
                       limits:
-                        memory: 1Gi
-                        cpu: 1200m
+                        memory: 300Mi
+                        cpu: 100m
                     tty: true
                 """.stripIndent()
             }
