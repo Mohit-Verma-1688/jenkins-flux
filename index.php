@@ -24,7 +24,7 @@
   </form>
 
   <blockquote>
-    <p class="lead">!! Please don't Judge me !! I am not a professional front end designer and I have created this page to showcase my learning in devops. I have tried to dockerize this app and automatate to run it on kubernetes cluster all by learning on the various education platforms.</p>
+    <p class="lead">!! Please don't Dev feature !! I am not a professional front end designer and I have created this page to showcase my learning in devops. I have tried to dockerize this app and automatate to run it on kubernetes cluster all by learning on the various education platforms.</p>
     <footer class="lead">Mohit Verma</footer>
   </blockquote>
   
