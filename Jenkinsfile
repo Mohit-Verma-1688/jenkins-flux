@@ -13,9 +13,6 @@ developmentTag = ''
 releaseTag = ''
 
 pipeline {
-  agent {
-    kubernetes { yamlFile "jenkins/docker-pod.yaml" }
-  }
   environment {
         // To get the tag like shown soru's answer:
          TAG_NAME = sh(returnStdout: true, script: "git describe --tags").trim()
@@ -23,6 +20,10 @@ pipeline {
         // In my case I already have a tag saved as an environment variable:
         // gitlabBranch=refs/tags/tagname
        // TAG_NAME = "${env.gitlabBranch.split('/')[2]}"
+    }
+  agent {
+    kubernetes { yamlFile "jenkins/docker-pod.yaml" }
+  }
     }
   stages {
     // Build a Docker image and keep it locally for now
