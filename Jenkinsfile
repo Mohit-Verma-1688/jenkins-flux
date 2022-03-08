@@ -40,6 +40,7 @@ spec:
 
     environment {
         GITHUB_ACCESS_TOKEN  = credentials('github-token')
+        tag = sh(returnStdout: true, script: "git rev-parse --short=10 HEAD").trim()
     }
 
     stages {
@@ -62,7 +63,7 @@ spec:
                     --insecure \
                     --skip-tls-verify \
                     --destination mohitverma1688/php-app:v1.0.6 \
-                    --destination mohitverma1688/php-app:latest
+                    --destination mohitverma1688/php-app:${tag}
                 '''
               }
             }
