@@ -40,10 +40,6 @@ spec:
 
     environment {
         GITHUB_ACCESS_TOKEN  = credentials('github-token')
-        gitCommit = env.GIT_COMMIT.substring(0,8)
-        branchName = env.BRANCH_NAME
-        unixTime = (new Date().time / 1000) as Integer
-        developmentTag = "${branchName}-${gitCommit}-${unixTime}"
     }
 
     stages {
@@ -58,6 +54,13 @@ spec:
           steps {
             container(name: 'kaniko', shell: '/busybox/sh') {
               withEnv(['PATH+EXTRA=/busybox']) {
+                script {
+                gitCommit = env.GIT_COMMIT.substring(0,8)
+                branchName = env.BRANCH_NAME
+                unixTime = (new Date().time / 1000) as Integer
+                developmentTag = "${branchName}-${gitCommit}-${unixTime}"
+                developmentImage = "${dockerRepoUser}/${dockerRepoProj}:${developmentTag}"
+                   }
                 sh '''#!/busybox/sh -xe
                   /kaniko/executor \
                     --dockerfile Dockerfile \
