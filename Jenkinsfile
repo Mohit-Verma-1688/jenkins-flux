@@ -40,7 +40,10 @@ spec:
 
     environment {
         GITHUB_ACCESS_TOKEN  = credentials('github-token')
-        tag = sh(returnStdout: true, script: "git rev-parse --short=10 HEAD").trim()
+        gitCommit = env.GIT_COMMIT.substring(0,8)
+        branchName = env.BRANCH_NAME
+        unixTime = (new Date().time / 1000) as Integer
+        developmentTag = "${branchName}-${gitCommit}-${unixTime}"
     }
 
     stages {
@@ -63,7 +66,7 @@ spec:
                     --insecure \
                     --skip-tls-verify \
                     --destination mohitverma1688/php-app:v1.0.6 \
-                    --destination mohitverma1688/php-app:${tag}
+                    --destination mohitverma1688/php-app:${developmentTag}
                 '''
               }
             }
