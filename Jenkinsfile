@@ -46,10 +46,6 @@ spec:
 
     environment {
         GITHUB_ACCESS_TOKEN  = credentials('github-token')
-        gitCommit = env.GIT_COMMIT.substring(0,8)
-        branchName = env.BRANCH_NAME
-        unixTime = (new Date().time / 1000) as Integer
-        developmentTag = "${branchName}-${gitCommit}-${unixTime}"
     }
 
     stages {
