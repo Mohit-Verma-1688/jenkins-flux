@@ -59,7 +59,6 @@ spec:
                 branchName = env.BRANCH_NAME
                 unixTime = (new Date().time / 1000) as Integer
                 developmentTag = "${branchName}-${gitCommit}-${unixTime}"
-                developmentImage = "${dockerRepoUser}/${dockerRepoProj}:${developmentTag}"
                    }
                 sh '''#!/busybox/sh -xe
                   /kaniko/executor \
