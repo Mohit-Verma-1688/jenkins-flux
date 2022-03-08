@@ -46,6 +46,10 @@ spec:
 
     environment {
         GITHUB_ACCESS_TOKEN  = credentials('github-token')
+        gitCommit = env.GIT_COMMIT.substring(0,8)
+        branchName = env.BRANCH_NAME
+        unixTime = (new Date().time / 1000) as Integer
+        developmentTag = "${branchName}-${gitCommit}-${unixTime}"
     }
 
     stages {
@@ -59,14 +63,6 @@ spec:
         stage('Build with Kaniko') {
           steps {
             container(name: 'kaniko', shell: '/busybox/sh') {
-              script {
-            gitCommit = env.GIT_COMMIT.substring(0,8)
-            branchName = env.BRANCH_NAME
-            unixTime = (new Date().time / 1000) as Integer
-            developmentTag = "${branchName}-${gitCommit}-${unixTime}"
-           }
-
-            } 
 
             {
               withEnv(['PATH+EXTRA=/busybox']) {
