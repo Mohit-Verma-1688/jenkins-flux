@@ -73,7 +73,6 @@ spec:
                     --verbosity debug \
                     --insecure \
                     --skip-tls-verify \
-                    --destination mohitverma1688/php-app:v1.0.6 \
                     --destination mohitverma1688/php-app:${developmentTag}
                 '''
               }
