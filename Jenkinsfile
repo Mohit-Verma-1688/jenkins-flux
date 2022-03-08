@@ -2,12 +2,6 @@
 
 def podLabel = "kaniko-${UUID.randomUUID().toString()}"
 
-gitCommit = ''
-branchName = ''
-unixTime = ''
-developmentTag = ''
-releaseTag = ''
-
 pipeline {
     agent {
         kubernetes {
@@ -59,8 +53,6 @@ spec:
         stage('Build with Kaniko') {
           steps {
             container(name: 'kaniko', shell: '/busybox/sh') {
-
-            {
               withEnv(['PATH+EXTRA=/busybox']) {
                 sh '''#!/busybox/sh -xe
                   /kaniko/executor \
@@ -70,7 +62,7 @@ spec:
                     --insecure \
                     --skip-tls-verify \
                     --destination mohitverma1688/php-app:v1.0.6 \
-                    --destination mohitverma1688/php-app:${developmentImage}
+                    --destination mohitverma1688/php-app:latest
                 '''
               }
             }
