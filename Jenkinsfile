@@ -1,119 +1,73 @@
-dockerRepoHost = 'docker.io'
-dockerRepoUser = 'mohitverma1688' // (Username must match the value in jenkinsDockerSecret)
-dockerRepoProj = 'php-app'
+#!groovy
 
-// these refer to a Jenkins secret "id", which can be in Jenkins global scope:
-jenkinsDockerSecret = 'docker-registry-account1'
-
-// blank values that are filled in by pipeline steps below:
-gitCommit = ''
-branchName = ''
-unixTime = ''
-developmentTag = ''
-releaseTag = ''
+def podLabel = "kaniko-${UUID.randomUUID().toString()}"
 
 pipeline {
-  agent {
-    kubernetes { yamlFile "jenkins/docker-pod.yaml" }
-  }
-  stages {
-    // Build a Docker image and keep it locally for now
-    stage('Build') {
-      steps {
-        container('docker') {
-          script {
-            gitCommit = env.GIT_COMMIT.substring(0,8)
-            branchName = env.BRANCH_NAME
-            unixTime = (new Date().time / 1000) as Integer
-            developmentTag = "${branchName}-${gitCommit}-${unixTime}"
-            developmentImage = "${dockerRepoUser}/${dockerRepoProj}:${developmentTag}"
-          }
-          sh "docker build -t ${developmentImage} ./"
+    agent {
+        kubernetes {
+            label podLabel
+            defaultContainer 'jnlp'
+            yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    jenkins-build: app-build
+    some-label: "build-app-${BUILD_NUMBER}"
+spec:
+  containers:
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:v1.5.1-debug
+    imagePullPolicy: IfNotPresent
+    command:
+    - /busybox/cat
+    tty: true
+    volumeMounts:
+      - name: jenkins-docker-cfg
+        mountPath: /kaniko/.docker
+  volumes:
+  - name: jenkins-docker-cfg
+    projected:
+      sources:
+      - secret:
+          name: docker-credentials
+          items:
+            - key: .dockerconfigjson
+              path: config.json
+"""
         }
-      }
     }
-    // Push the image to development environment, and run tests in parallel
-    stage('Dev') {
-      parallel {
-        stage('Push Development Tag') {
-          when {
-            not {
-              buildingTag()
+
+    environment {
+        GITHUB_ACCESS_TOKEN  = credentials('github-token')
+    }
+
+    stages {
+
+        stage('Checkout Code') {
+            steps {
+              checkout scm
             }
-          }
+        }
+
+        stage('Build with Kaniko') {
           steps {
-            withCredentials([[$class: 'UsernamePasswordMultiBinding',
-              credentialsId: jenkinsDockerSecret,
-              usernameVariable: 'DOCKER_REPO_USER',
-              passwordVariable: 'DOCKER_REPO_PASSWORD']]) {
-              container('docker') {
-                sh """\
-                  docker login -u \$DOCKER_REPO_USER -p \$DOCKER_REPO_PASSWORD
-                  docker push ${developmentImage}
-                """.stripIndent()
+            container(name: 'kaniko', shell: '/busybox/sh') {
+              withEnv(['PATH+EXTRA=/busybox']) {
+                sh '''#!/busybox/sh -xe
+                  /kaniko/executor \
+                    --dockerfile Dockerfile \
+                    --context `pwd`/ \
+                    --verbosity debug \
+                    --insecure \
+                    --skip-tls-verify \
+                    --destination mohitverma1688/php-app:v1.0.6 \
+                    --destination mohitverma1688/php-app:latest
+                '''
               }
             }
           }
         }
-        // Start a second agent to create a pod with the newly built image
-        stage('Test') {
-          agent {
-            kubernetes {
-              yaml """\
-                apiVersion: v1
-                kind: Pod
-                spec:
-                  containers:
-                  - name: test
-                    image: ${developmentImage}
-                    imagePullPolicy: Never
-                    securityContext:
-                      runAsUser: 1000
-                    command:
-                    - cat
-                    resources:
-                      requests:
-                        memory: 100Mi
-                        cpu: 30m
-                      limits:
-                        memory: 300Mi
-                        cpu: 100m
-                    tty: true
-                """.stripIndent()
-            }
-          }
-          options { skipDefaultCheckout(true) }
-          steps {
-            // Run the tests in the new test container
-            container('test') {
-              echo 'testing stage running'
-            }
-          }
-        }
-      }
+
     }
-    stage('Push Release Tag') {
-      when {
-        buildingTag()
-      }
-      steps {
-        script {
-          releaseTag = env.TAG_NAME
-          releaseImage = "${dockerRepoUser}/${dockerRepoProj}:${releaseTag}"
-        }
-        container('docker') {
-          withCredentials([[$class: 'UsernamePasswordMultiBinding',
-            credentialsId: jenkinsDockerSecret,
-            usernameVariable: 'DOCKER_REPO_USER',
-            passwordVariable: 'DOCKER_REPO_PASSWORD']]) {
-            sh """\
-              docker login -u \$DOCKER_REPO_USER -p \$DOCKER_REPO_PASSWORD
-              docker tag ${developmentImage} ${releaseImage}
-              docker push ${releaseImage}
-            """.stripIndent()
-          }
-        }
-      }
-    }
-  }
 }
