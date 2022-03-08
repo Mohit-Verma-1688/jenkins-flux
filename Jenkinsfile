@@ -2,6 +2,12 @@
 
 def podLabel = "kaniko-${UUID.randomUUID().toString()}"
 
+gitCommit = ''
+branchName = ''
+unixTime = ''
+developmentTag = ''
+releaseTag = ''
+
 pipeline {
     agent {
         kubernetes {
