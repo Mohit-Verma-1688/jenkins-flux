@@ -7,7 +7,7 @@
 
 <div class="container-xl">
   <div class="jumbotron">
-  <h1>PHP + MySQL CRUD Demo</h1>
+  <h1>BEAUTIFUL CRUD APP DEMO</h1>
   <p class="bg-info">Create, read, update, and delete records below:</p>
   <table class="table table-bordered">
     <tbody>
@@ -24,7 +24,7 @@
   </form>
 
   <blockquote>
-    <p class="lead">!! Please 33don't  !! I am not a professional front end designer and I have created this page to showcase my learning in devops. I have tried to dockerize this app and automatate to run it on kubernetes cluster all by learning on the various education platforms.</p>
+    <p class="lead">!! THIS IS A BEAUTIFUL CRUD APP !!</p>
     <footer class="lead">Mohit Verma</footer>
   </blockquote>
   
