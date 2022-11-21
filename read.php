@@ -1,6 +1,6 @@
 <?php
   include './db.php';
-  $sql = "select * from demo_table";
+  $sql = "select * from dummy";
   $result = $conn->query($sql);
   while($row = $result->fetch_assoc()) {
     echo "<tr>";
