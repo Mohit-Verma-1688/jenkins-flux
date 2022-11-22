@@ -7,7 +7,7 @@
 
 <div class="container-xl">
   <div class="jumbotron">
-  <h1>BEAUTIFUL CRUD APP DEMO V.3</h1>
+  <h1>BEAUTIFUL CRUD APP DEMO V.4</h1>
   <p class="bg-info">Create, read, update, and delete records below:</p>
   <table class="table table-bordered">
     <tbody>
