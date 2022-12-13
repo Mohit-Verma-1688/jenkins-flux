@@ -23,9 +23,9 @@
     <button type="submit" class="btn btn-primary">Add</button>
   </form>
 
+
   <blockquote>
-    <p class="lead">!! THIS IS A TEST CRUD APP !!</p>
-    <footer class="lead">flux CD</footer>
+    <p class="lead">!! FLUX CD DEPLOYED THIS DEMO CRUD APP !!</p>
   </blockquote>
   
 
