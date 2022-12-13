@@ -60,7 +60,7 @@ spec:
               withEnv(['PATH+EXTRA=/busybox']) {
                 sh '''#!/busybox/sh -xe
                   /kaniko/executor \
-                    --dockerfile Dockerfile \
+                    --dockerfile ./code/Dockerfile \
                     --context `pwd`/ \
                     --verbosity debug \
                     --insecure \
