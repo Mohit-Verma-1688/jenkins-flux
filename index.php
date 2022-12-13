@@ -7,7 +7,7 @@
 
 <div class="container-xl">
   <div class="jumbotron">
-  <h1>BEAUTIFUL CRUD APP DEMO V.5</h1>
+  <h1>CI-CD APP DEMO Version 1</h1>
   <p class="bg-info">Create, read, update, and delete records below:</p>
   <table class="table table-bordered">
     <tbody>
@@ -25,7 +25,7 @@
 
   <blockquote>
     <p class="lead">!! THIS IS A BEAUTIFUL CRUD APP !!</p>
-    <footer class="lead">Mohit Verma</footer>
+    <footer class="lead">CI-CD example app</footer>
   </blockquote>
   
 
